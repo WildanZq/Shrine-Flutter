@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 
 import 'model/products_repository.dart';
 import 'model/product.dart';
+import 'supplemental/asymmetric_view.dart';
 
 class HomePage extends StatelessWidget {
   List<Card> _buildGridCards(BuildContext context) {
@@ -33,10 +34,9 @@ class HomePage extends StatelessWidget {
     return products.map((product) {
       return Card(
         clipBehavior: Clip.antiAlias,
-        // TODO: Adjust card heights (103)
+        elevation: 0,
         child: Column(
-          // TODO: Center items on the card (103)
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             AspectRatio(
               aspectRatio: 18.0 / 11.0,
@@ -50,20 +50,21 @@ class HomePage extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
                 child: Column(
-                   // TODO: Align labels to the bottom and center (103)
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // TODO: Change innermost Column (103)
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // TODO: Handle overflowing labels (103)
                     Text(
-                      product.name,
+                      product == null ? '' : product.name,
+                      style: theme.textTheme.button,
+                      softWrap: false,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.title,
+                      maxLines: 1,
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 4),
                     Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.body2,
+                      product == null ? '' : formatter.format(product.price),
+                      style: theme.textTheme.caption,
                     ),
                   ],
                 ),
@@ -82,6 +83,7 @@ class HomePage extends StatelessWidget {
     // TODO: Pass Category variable to AsymmetricView (104)
     return Scaffold(
       appBar: AppBar(
+        brightness: Brightness.light,
         leading: IconButton(
           icon: Icon(
             Icons.menu,
@@ -113,12 +115,16 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: EdgeInsets.all(16),
-        childAspectRatio: 8.0 / 9.0,
-        children: _buildGridCards(context),
+      body: AsymmetricView(
+        products: ProductsRepository.loadProducts(Category.all),
       ),
+      // NOTE: Tradisional Grid
+      // body: GridView.count(
+      //   crossAxisCount: 2,
+      //   padding: EdgeInsets.all(16),
+      //   childAspectRatio: 8.0 / 9.0,
+      //   children: _buildGridCards(context),
+      // ),
       resizeToAvoidBottomInset: false,
     );
   }
