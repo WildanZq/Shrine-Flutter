@@ -46,6 +46,12 @@ class _ProductCardState extends State<ProductCard>
     );
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   bool get _animationStatus {
     final AnimationStatus status = _controller.status;
     return status == AnimationStatus.completed ||
@@ -53,7 +59,7 @@ class _ProductCardState extends State<ProductCard>
   }
 
   void _toggleScale() {
-    _controller.fling(velocity: _animationStatus ? -2 : 2);
+    _controller.fling(velocity: _animationStatus ? -1 : 1);
   }
 
   @override
@@ -73,42 +79,57 @@ class _ProductCardState extends State<ProductCard>
 
     return GestureDetector(
       onTap: () {
-        _toggleScale();
-        print('wohoo');
+        Navigator.pushNamed(
+          context,
+          '/detailProduct',
+          arguments: widget.product,
+        );
       },
       onTapCancel: _toggleScale,
+      onTapUp: (detail) => _toggleScale(),
       onTapDown: (detail) => _toggleScale(),
       child: ScaleTransition(
         scale: animation,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             AspectRatio(
               aspectRatio: widget.imageAspectRatio,
-              child: imageWidget,
+              child: Hero(
+                tag: 'image' + widget.product.id.toString(),
+                child: imageWidget,
+              ),
             ),
             SizedBox(
               height: widget.kTextBoxHeight *
                   MediaQuery.of(context).textScaleFactor,
-              width: 121.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    widget.product == null ? '' : widget.product.name,
-                    style: theme.textTheme.button,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  Hero(
+                    tag: 'name' + widget.product.id.toString(),
+                    child: Transform.scale(
+                      scale: 1,
+                      child: Text(
+                        widget.product == null ? '' : widget.product.name,
+                        style: theme.textTheme.button,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                        maxLines: 1,
+                      ),
+                    ),
                   ),
                   SizedBox(height: 4.0),
-                  Text(
-                    widget.product == null
-                        ? ''
-                        : formatter.format(widget.product.price),
-                    style: theme.textTheme.caption,
+                  Hero(
+                    tag: 'price' + widget.product.id.toString(),
+                    child: Text(
+                      widget.product == null
+                          ? ''
+                          : formatter.format(widget.product.price),
+                      style: theme.textTheme.caption,
+                    ),
                   ),
                 ],
               ),

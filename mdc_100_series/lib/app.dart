@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:Shrine/detail_product.dart';
 import 'package:flutter/material.dart';
 
 import 'model/product.dart';
@@ -64,6 +65,7 @@ class _ShrineAppState extends State<ShrineApp> {
               frontTitle: Text('SHRINE'),
               backTitle: Text('MENU'),
             ),
+        '/detailProduct': (context) => DetailProduct(),
       },
       // onGenerateRoute: _getRoute,
       theme: _kShrineTheme,
@@ -88,23 +90,25 @@ final ThemeData _kShrineTheme = _buildShrineTheme();
 ThemeData _buildShrineTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
-      accentColor: kShrineBrown900,
-      primaryColor: kShrinePink100,
-      buttonTheme: base.buttonTheme.copyWith(
-        buttonColor: kShrinePink100,
-        textTheme: ButtonTextTheme.normal,
-      ),
-      scaffoldBackgroundColor: kShrineBackgroundWhite,
-      cardColor: kShrineBackgroundWhite,
-      textSelectionColor: kShrinePink100,
-      errorColor: kShrineErrorRed,
-      textTheme: _buildShrineTextTheme(base.textTheme),
-      primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
-      accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
-      primaryIconTheme: base.iconTheme.copyWith(color: kShrineBrown900),
-      inputDecorationTheme: InputDecorationTheme(
-        border: CutCornersBorder(),
-      ));
+    accentColor: kShrineBrown900,
+    primaryColor: kShrinePink100,
+    buttonTheme: base.buttonTheme.copyWith(
+      buttonColor: kShrinePink100,
+      textTheme: ButtonTextTheme.normal,
+    ),
+    scaffoldBackgroundColor: kShrineBackgroundWhite,
+    cardColor: kShrineBackgroundWhite,
+    textSelectionColor: kShrinePink100,
+    errorColor: kShrineErrorRed,
+    textTheme: _buildShrineTextTheme(base.textTheme),
+    primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
+    accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
+    primaryIconTheme: base.iconTheme.copyWith(color: kShrineBrown900),
+    inputDecorationTheme: InputDecorationTheme(
+      border: CutCornersBorder(),
+    ),
+    hintColor: kShrineBrown900,
+  );
 }
 
 TextTheme _buildShrineTextTheme(TextTheme base) {
