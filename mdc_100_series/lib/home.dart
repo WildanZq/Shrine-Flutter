@@ -53,7 +53,6 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    // TODO: Handle overflowing labels (103)
                     Text(
                       product == null ? '' : product.name,
                       style: theme.textTheme.button,
@@ -76,11 +75,14 @@ class HomePage extends StatelessWidget {
     }).toList();
   }
 
-  // TODO: Add a variable for Category (104)
+  final Category category;
+
+  const HomePage({this.category: Category.all});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: Return an AsymmetricView (104)
-    // TODO: Pass Category variable to AsymmetricView (104)
+    return AsymmetricView(
+        products: ProductsRepository.loadProducts(category));
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.light,

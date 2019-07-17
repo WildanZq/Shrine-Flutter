@@ -64,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             ButtonBar(
-              // TODO: Add a beveled rectangular border to CANCEL (103)
               children: <Widget>[
                 FlatButton(
                   child: Text('CANCEL'),
