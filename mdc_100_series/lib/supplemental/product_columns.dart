@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import '../model/product.dart';
 import 'product_card.dart';
 
+final double kTextBoxHeight = 65;
+
 class TwoProductCardColumn extends StatelessWidget {
   TwoProductCardColumn({
     this.bottom,
@@ -32,7 +34,7 @@ class TwoProductCardColumn extends StatelessWidget {
       const spacerHeight = 44.0;
 
       double heightOfCards = (constraints.biggest.height - spacerHeight) / 2.0;
-      double heightOfImages = heightOfCards - ProductCard.kTextBoxHeight;
+      double heightOfImages = heightOfCards - kTextBoxHeight;
       double imageAspectRatio = heightOfImages >= 0
           ? constraints.biggest.width / heightOfImages
           : 49 / 33;
@@ -46,6 +48,7 @@ class TwoProductCardColumn extends StatelessWidget {
                 ? ProductCard(
                     imageAspectRatio: imageAspectRatio,
                     product: top,
+                    kTextBoxHeight: kTextBoxHeight,
                   )
                 : SizedBox(
                     height: heightOfCards,
@@ -57,6 +60,7 @@ class TwoProductCardColumn extends StatelessWidget {
             child: ProductCard(
               imageAspectRatio: imageAspectRatio,
               product: bottom,
+              kTextBoxHeight: kTextBoxHeight,
             ),
           ),
         ],
@@ -81,6 +85,7 @@ class OneProductCardColumn extends StatelessWidget {
         ),
         ProductCard(
           product: product,
+          kTextBoxHeight: kTextBoxHeight,
         ),
       ],
     );

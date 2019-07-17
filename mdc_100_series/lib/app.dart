@@ -41,18 +41,31 @@ class _ShrineAppState extends State<ShrineApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shrine',
-      home: Backdrop(
-        currentCategory: _currentCategory,
-        frontLayer: HomePage(category: _currentCategory),
-        backLayer: CategoryMenuPage(
-          currentCategory: _currentCategory,
-          onCategoryTap: _onCategoryTap,
-        ),
-        frontTitle: Text('SHRINE'),
-        backTitle: Text('MENU'),
-      ),
-      initialRoute: '/login',
-      onGenerateRoute: _getRoute,
+      // home: Backdrop(
+      //   currentCategory: _currentCategory,
+      //   frontLayer: HomePage(category: _currentCategory),
+      //   backLayer: CategoryMenuPage(
+      //     currentCategory: _currentCategory,
+      //     onCategoryTap: _onCategoryTap,
+      //   ),
+      //   frontTitle: Text('SHRINE'),
+      //   backTitle: Text('MENU'),
+      // ),
+      // initialRoute: '/login',
+      routes: {
+        '/': (context) => LoginPage(),
+        '/home': (context) => Backdrop(
+              currentCategory: _currentCategory,
+              frontLayer: HomePage(category: _currentCategory),
+              backLayer: CategoryMenuPage(
+                currentCategory: _currentCategory,
+                onCategoryTap: _onCategoryTap,
+              ),
+              frontTitle: Text('SHRINE'),
+              backTitle: Text('MENU'),
+            ),
+      },
+      // onGenerateRoute: _getRoute,
       theme: _kShrineTheme,
     );
   }
