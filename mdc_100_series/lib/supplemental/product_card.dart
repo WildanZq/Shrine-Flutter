@@ -110,8 +110,7 @@ class _ProductCardState extends State<ProductCard>
                 children: <Widget>[
                   Hero(
                     tag: 'name' + widget.product.id.toString(),
-                    child: Transform.scale(
-                      scale: 1,
+                    child: Material(
                       child: Text(
                         widget.product == null ? '' : widget.product.name,
                         style: theme.textTheme.button,
