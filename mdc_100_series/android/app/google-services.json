@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "617240797651",
+    "firebase_url": "https://shrine-flutter.firebaseio.com",
+    "project_id": "shrine-flutter",
+    "storage_bucket": "shrine-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617240797651:android:c9233f5ef928aaec",
+        "android_client_info": {
+          "package_name": "com.example.mdc100series"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "617240797651-7lcovt9n29rf4ug58o8hbreeqcql1en4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTkdkP9oSMqqZCW7f7xouz-nsXAwlWIT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "617240797651-7lcovt9n29rf4ug58o8hbreeqcql1en4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

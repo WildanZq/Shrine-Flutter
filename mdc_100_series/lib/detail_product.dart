@@ -14,16 +14,23 @@ class ExpandableDescription extends StatefulWidget {
 class _ExpandableDescriptionState extends State<ExpandableDescription>
     with SingleTickerProviderStateMixin {
   static AnimationController _controller;
-  static bool _expanded = false;
+  static bool _expanded;
 
   @override
   void initState() {
     super.initState();
+    _expanded = false;
     _controller = AnimationController(
       value: 0,
       duration: Duration(milliseconds: 400),
       vsync: this,
     );
+  }
+
+  @override
+  void dispose() { 
+    _controller.dispose();
+    super.dispose();
   }
 
   void _toggleCollapse() {

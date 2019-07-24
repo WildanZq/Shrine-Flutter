@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:Shrine/detail_product.dart';
+import 'package:Shrine/splash.dart';
 import 'package:flutter/material.dart';
 
 import 'model/product.dart';
@@ -54,7 +55,8 @@ class _ShrineAppState extends State<ShrineApp> {
       // ),
       // initialRoute: '/login',
       routes: {
-        '/': (context) => LoginPage(),
+        '/': (context) => SplashPage(),
+        '/login': (context) => LoginPage(),
         '/home': (context) => Backdrop(
               currentCategory: _currentCategory,
               frontLayer: HomePage(category: _currentCategory),

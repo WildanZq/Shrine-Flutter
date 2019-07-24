@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 import 'package:meta/meta.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'model/product.dart';
 
@@ -222,6 +223,8 @@ class _BackdropState extends State<Backdrop>
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseUser _user = ModalRoute.of(context).settings.arguments;
+
     var appBar = AppBar(
       brightness: Brightness.light,
       elevation: 0,
@@ -237,13 +240,17 @@ class _BackdropState extends State<Backdrop>
         backTitle: widget.backTitle,
       ),
       actions: <Widget>[
+        Center(
+          child: Text(_user.email),
+        ),
         IconButton(
           icon: Icon(
-            Icons.search,
-            semanticLabel: 'login',
+            Icons.exit_to_app,
+            semanticLabel: 'sign out',
           ),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, '/');
+          onPressed: () async {
+            await FirebaseAuth.instance.signOut();
+            Navigator.pushReplacementNamed(context, '/login');
           },
         ),
       ],
