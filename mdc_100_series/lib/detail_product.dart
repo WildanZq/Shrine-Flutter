@@ -1,7 +1,9 @@
 import 'package:Shrine/model/product.dart';
-import 'package:Shrine/review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'supplemental/review_card.dart';
+import 'supplemental/expandable_container.dart';
 
 class ExpandableDescription extends StatefulWidget {
   final String text;
@@ -28,7 +30,7 @@ class _ExpandableDescriptionState extends State<ExpandableDescription>
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
@@ -42,39 +44,49 @@ class _ExpandableDescriptionState extends State<ExpandableDescription>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        AnimatedContainer(
-          duration: Duration(milliseconds: 400),
-          curve: Curves.easeOut,
-          height: _expanded ? null : 46,
-          child: Text(
-            widget.text,
-            style: Theme.of(context).textTheme.body1,
-            overflow: TextOverflow.fade,
-          ),
-        ),
-        Center(
-          child: FlatButton(
-            onPressed: _toggleCollapse,
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                Text(
-                  _expanded ? 'Show Less' : 'Show More',
-                  style: Theme.of(context).textTheme.button,
-                ),
-                RotationTransition(
-                  turns: Tween(begin: 0.0, end: -.5).animate(_controller.view),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
-              ],
+    if (widget.text.length > 94)
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ExpandableContainer(
+            begin: .5,
+            expand: _expanded,
+            child: Text(
+              widget.text,
+              style: Theme.of(context).textTheme.body1,
+              overflow: TextOverflow.fade,
             ),
           ),
+          Center(
+            child: FlatButton(
+              onPressed: _toggleCollapse,
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: <Widget>[
+                  Text(
+                    _expanded ? 'Show Less' : 'Show More',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                  RotationTransition(
+                    turns:
+                        Tween(begin: 0.0, end: -.5).animate(_controller.view),
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    else
+      return Container(
+        height: 50,
+        child: Text(
+          widget.text,
+          style: Theme.of(context).textTheme.body1,
+          overflow: TextOverflow.fade,
         ),
-      ],
-    );
+      );
   }
 }
 
@@ -126,24 +138,24 @@ class DetailProduct extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool scrolled) => <Widget>[
-              SliverAppBar(
-                floating: true,
-                pinned: true,
-                expandedHeight: MediaQuery.of(context).textScaleFactor * 240,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: Text(product.name),
-                  background: Hero(
-                    tag: 'image' + product.id.toString(),
-                    child: Image.asset(
-                      product.assetName,
-                      package: product.assetPackage,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+          SliverAppBar(
+            floating: true,
+            pinned: true,
+            expandedHeight: MediaQuery.of(context).textScaleFactor * 240,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(product.name),
+              background: Hero(
+                tag: 'image' + product.id.toString(),
+                child: Image.asset(
+                  product.assetName,
+                  package: product.assetPackage,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ],
+            ),
+          ),
+        ],
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
