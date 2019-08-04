@@ -35,18 +35,13 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _isLoading = false;
     _autovalidate = false;
-    _emailController = new TextEditingController()
-      ..addListener(() => setState(() {
-            if (_emailController.text != '') _autovalidate = true;
-          }));
-    _passwordController = new TextEditingController()
-      ..addListener(() => setState(() {
-            if (_passwordController.text != '') _autovalidate = true;
-          }));
+    _emailController = new TextEditingController();
+    _passwordController = new TextEditingController();
   }
 
   _signIn() async {
     setState(() {
+      _autovalidate = true;
       _isLoading = true;
     });
     FirebaseUser _user;
@@ -79,11 +74,11 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       Navigator.pushReplacementNamed(context, '/home', arguments: _user);
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   Future<bool> _onWillPop() {
@@ -119,99 +114,125 @@ class _LoginPageState extends State<LoginPage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         body: SafeArea(
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
+          child: Stack(
             children: <Widget>[
-              SizedBox(height: 80.0),
-              Hero(
-                tag: 'logo',
-                child: Column(
-                  children: <Widget>[
-                    Image.asset('assets/diamond.png'),
-                    SizedBox(height: 16.0),
-                    Text('SHRINE'),
-                  ],
-                ),
-              ),
-              SizedBox(height: 120.0),
-              Form(
-                key: _loginFormKey,
-                child: Column(
-                  children: <Widget>[
-                    AccentColorOverride(
-                      color: kShrineBrown900,
-                      child: TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        autovalidate: _autovalidate,
-                        validator: (String value) {
-                          Pattern pattern =
-                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                          RegExp regex = new RegExp(pattern);
-                          if (!regex.hasMatch(value)) {
-                            return 'Email format is invalid';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    AccentColorOverride(
-                      color: kShrineBrown900,
-                      child: TextFormField(
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                        ),
-                        obscureText: true,
-                        autovalidate: _autovalidate,
-                        validator: (String value) {
-                          if (value.length < 6) {
-                            return 'Password must be longer than 6 characters';
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ),
-                    ButtonBar(
+              ListView(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                children: <Widget>[
+                  SizedBox(height: 80.0),
+                  Hero(
+                    tag: 'logo',
+                    child: Column(
                       children: <Widget>[
-                        FlatButton(
-                          child: Text('CANCEL'),
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                        Image.asset('assets/diamond.png'),
+                        SizedBox(height: 16.0),
+                        Text('SHRINE'),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 120.0),
+                  Form(
+                    key: _loginFormKey,
+                    child: Column(
+                      children: <Widget>[
+                        AccentColorOverride(
+                          color: kShrineBrown900,
+                          child: TextFormField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            autovalidate: _autovalidate,
+                            validator: (String value) {
+                              Pattern pattern =
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                              RegExp regex = new RegExp(pattern);
+                              if (!regex.hasMatch(value)) {
+                                return 'Email format is invalid';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          onPressed: () {
-                            _emailController.clear();
-                            _passwordController.clear();
-                          },
                         ),
-                        RaisedButton(
-                          child: _isLoading
-                              ? Center(
-                                  child: SizedBox(
-                                    width: 16,
-                                    height: 16,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  ),
-                                )
-                              : Text('LOGIN'),
-                          elevation: 8,
-                          shape: BeveledRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        AccentColorOverride(
+                          color: kShrineBrown900,
+                          child: TextFormField(
+                            controller: _passwordController,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                            ),
+                            obscureText: true,
+                            autovalidate: _autovalidate,
+                            validator: (String value) {
+                              if (value.length < 6) {
+                                return 'Password must be at least 6 characters';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          disabledColor: Theme.of(context).primaryColor,
-                          onPressed: _isLoading ? null : _signIn,
+                        ),
+                        ButtonBar(
+                          children: <Widget>[
+                            FlatButton(
+                              child: Text('CANCEL'),
+                              shape: BeveledRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(7)),
+                              ),
+                              onPressed: () {
+                                _loginFormKey.currentState.reset();
+                                setState(() {
+                                  _autovalidate = false;
+                                });
+                              },
+                            ),
+                            RaisedButton(
+                              child: _isLoading
+                                  ? Center(
+                                      child: SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                    )
+                                  : Text('LOGIN'),
+                              elevation: 8,
+                              shape: BeveledRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(7)),
+                              ),
+                              disabledColor: Theme.of(context).primaryColor,
+                              onPressed: _isLoading ? null : _signIn,
+                            ),
+                          ],
                         ),
                       ],
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                bottom: 16,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Don\'t have an account? '),
+                    InkWell(
+                      onTap: () => Navigator.pushNamed(context, '/register'),
+                      child: Text(
+                        'Register',
+                        style: Theme.of(context).textTheme.body2,
+                      ),
                     ),
                   ],
                 ),

@@ -241,7 +241,7 @@ class _BackdropState extends State<Backdrop>
       ),
       actions: <Widget>[
         Center(
-          child: Text(_user.email),
+          child: Text(_user.displayName != null ? _user.displayName : ''),
         ),
         IconButton(
           icon: Icon(

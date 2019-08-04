@@ -20,6 +20,7 @@ import 'model/product.dart';
 import 'supplemental/cut_corners_border.dart';
 import 'home.dart';
 import 'login.dart';
+import 'register.dart';
 import 'colors.dart';
 import 'backdrop.dart';
 import 'category_menu_page.dart';
@@ -57,6 +58,7 @@ class _ShrineAppState extends State<ShrineApp> {
       routes: {
         '/': (context) => SplashPage(),
         '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
         '/home': (context) => Backdrop(
               currentCategory: _currentCategory,
               frontLayer: HomePage(category: _currentCategory),
